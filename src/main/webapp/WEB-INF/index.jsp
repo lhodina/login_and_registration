@@ -13,49 +13,53 @@
 	<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-	<h1>Welcome</h1>
+	<p class="text-danger"><c:out value="${accessDenied }" /></p>
 	<div class="container">
-		<p class="text-danger"><c:out value="${accessDenied }" /></p>
-		<form:form action="/register" method="post" modelAttribute="newUser">
-			<h2>Register</h2>
-			<div class="form-group">
-				<form:label path="userName">User Name</form:label>
-				<form:errors class="text-danger" path="userName" />
-				<form:input path="userName" class="form-control" />
-			</div>
-			<div class="form-group">
-				<form:label path="email">Email</form:label>
-				<form:errors class="text-danger" path="email" />
-				<form:input path="email" class="form-control" />
-			</div>
-			<div class="form-group">
-				<form:label path="password">Password</form:label>
-				<form:errors class="text-danger" path="password" />
-				<form:input type="password" path="password" class="form-control" />
-			</div>
-			<div class="form-group">
-				<form:label path="confirm">Confirm Password</form:label>
-				<form:errors class="text-danger" path="confirm" />
-				<form:input type="password" path="confirm" class="form-control" />
-			</div>
-			<button class="btn btn-primary">Submit</button>
-		</form:form>
-		
-		<form:form action="/login" method="post" modelAttribute="newLogin">
-			<h2>Login</h2>
-			<div class="form-group">
-				<form:label path="email">Email</form:label>
-				<form:errors class="text-danger" path="email" />
-				<form:input path="email" class="form-control" />
-			</div>
-			<div class="form-group">
-				<form:label path="password">Password</form:label>
-				<form:errors class="text-danger" path="password" /> 
-				<form:input path="password" class="form-control" />
-			</div>
-			<button class="btn btn-primary">Submit</button>
-		</form:form>
+		<div>
+			<h1>Book Club</h1>
+			<p>A place for friends to share thoughts on books.</p>
+		</div>
+		<div class="forms-container">
+			<form:form action="/register" method="post" modelAttribute="newUser">
+				<h2>Register</h2>
+				<div class="form-group">
+					<form:label path="userName">User Name</form:label>
+					<form:errors class="text-danger" path="userName" />
+					<form:input path="userName" class="form-control" />
+				</div>
+				<div class="form-group">
+					<form:label path="email">Email</form:label>
+					<form:errors class="text-danger" path="email" />
+					<form:input path="email" class="form-control" />
+				</div>
+				<div class="form-group">
+					<form:label path="password">Password</form:label>
+					<form:errors class="text-danger" path="password" />
+					<form:input type="password" path="password" class="form-control" />
+				</div>
+				<div class="form-group">
+					<form:label path="confirm">Confirm Password</form:label>
+					<form:errors class="text-danger" path="confirm" />
+					<form:input type="password" path="confirm" class="form-control" />
+				</div>
+				<button class="btn btn-primary">Submit</button>
+			</form:form>
+			
+			<form:form action="/login" method="post" modelAttribute="newLogin">
+				<h2>Login</h2>
+				<div class="form-group">
+					<form:label path="email">Email</form:label>
+					<form:errors class="text-danger" path="email" />
+					<form:input path="email" class="form-control" />
+				</div>
+				<div class="form-group">
+					<form:label path="password">Password</form:label>
+					<form:errors class="text-danger" path="password" /> 
+					<form:input path="password" class="form-control" />
+				</div>
+				<button class="btn btn-primary">Submit</button>
+			</form:form>
+		</div>
 	</div>
-
 </body>
 </html>

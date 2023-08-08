@@ -1,14 +1,23 @@
 @charset "ISO-8859-1";
 
-h1 {
-	text-align: center;
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .container {
 	width: 75%;
 	margin: 0 auto;
-	display: flex;
-	justify-content: center;
+}
+
+.container {
+	width: 75%;
+	margin: 0 auto;
+}
+
+.forms-container {
+	display:flex;
 }
 
 form {
@@ -17,4 +26,35 @@ form {
 
 button {
 	margin: 10px 0;
+}
+
+.summary {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.user {
+	color: red;
+}
+
+.title {
+	color: purple;
+}
+
+.author {
+	color: green;
+}
+
+.thoughts {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	width: 50%;
+}
+
+.thoughts p {
+	font-style: italic;
+}
+
+a {
+	margin: 5px;
 }
