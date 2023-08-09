@@ -27,17 +27,59 @@
 					<th scope="col">ID</th>
 					<th scope="col">Title</th>
 					<th scope="col">Author Name</th>
-					<th scope="col">Posted By</th>
+					<th scope="col">Owner</th>
+					<th scope="col">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="book" items="${allBooks }">
-					<tr>
-						<td>${book.id }</td>
-						<td><a href="books/${book.id }">${book.title }</a></td>
-						<td>${book.authorName }</td>
-						<td>${book.user.userName }</td>
-					</tr>
+					<c:if test = "${book.borrower.id == null }">
+						<tr>
+							<td>${book.id }</td>
+							<td><a href="books/${book.id }">${book.title }</a></td>
+							<td>${book.authorName }</td>
+							<td>${book.user.userName }</td>
+							<c:choose>
+								<c:when test = "${book.user.id == currentUserId}">
+									<td>
+										<a href="/books/${book.id}/edit">edit</a>
+										<a href="/books/${book.id }/delete">delete</a>
+									</td>
+								</c:when>
+								<c:otherwise>
+									<td>
+										<a href="/books/${book.id}/borrow">borrow</a>
+									</td>
+								</c:otherwise>
+							</c:choose>
+						</tr>
+					</c:if>
+				</c:forEach>
+			</tbody>
+		</table>
+		<br>
+		<p>Books I'm borrowing:</p>
+		<table class="table table-striped table-bordered table-hover thead-dark">
+			<thead class="table-light">
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">Title</th>
+					<th scope="col">Author Name</th>
+					<th scope="col">Owner</th>
+					<th scope="col">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="book" items="${allBooks }">
+					<c:if test = "${currentUserId == book.borrower.id }">
+						<tr>
+							<td>${book.id }</td>
+							<td><a href="books/${book.id }">${book.title }</a></td>
+							<td>${book.authorName }</td>
+							<td>${book.user.userName }</td>
+							<td><a href="/books/${book.id}/return">return</a></td>
+						</tr>
+					</c:if>
 				</c:forEach>
 			</tbody>
 		</table>

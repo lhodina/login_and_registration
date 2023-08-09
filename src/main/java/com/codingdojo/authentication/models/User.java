@@ -1,9 +1,17 @@
 package com.codingdojo.authentication.models;
 
+import java.util.Date;
+import java.util.List;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
@@ -34,8 +42,24 @@ public class User {
 	@Size(min=8, max=128, message="Confirm Password must be between 8 and 128 characters")
 	private String confirm;
 	
+    @Column(updatable=false)
+    private Date createdAt;
+    private Date updatedAt;
+	
+	@OneToMany(mappedBy="borrower", fetch=FetchType.LAZY)
+	private List<Book> borrowing;
+	
 	public User() {}
 
+    @PrePersist
+    protected void onCreate(){
+        this.createdAt = new Date();
+    }
+    @PreUpdate
+    protected void onUpdate(){
+        this.updatedAt = new Date();
+    }
+    
 	public Long getId() {
 		return id;
 	}
@@ -74,6 +98,14 @@ public class User {
 
 	public void setConfirm(String confirm) {
 		this.confirm = confirm;
+	}
+
+	public List<Book> getBorrowing() {
+		return borrowing;
+	}
+
+	public void setBorrowing(List<Book> borrowing) {
+		this.borrowing = borrowing;
 	}
 	
 	

@@ -80,7 +80,6 @@ public class HomeController {
 		
 		User currentUser = userServ.find((Long) session.getAttribute("currentUserId"));
 		List<Book> allBooks = bookServ.allBooks();
-		
 		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("allBooks", allBooks);
 		return "welcome.jsp";
@@ -129,9 +128,12 @@ public class HomeController {
 	}
 	
 	@GetMapping("/books/{id}/edit")
-	public String getEditForm(@PathVariable("id") Long id, Model model) {
+	public String getEditForm(@PathVariable("id") Long id, Model model, HttpSession session) {
 		Book book = bookServ.findBook(id);
 		model.addAttribute("book", book);
+		User borrower = book.getBorrower();
+		session.setAttribute("borrower", borrower);
+		System.out.println("session.getAttribute('borrower'): " + session.getAttribute("borrower"));
 		return "editBook.jsp";
 	}
 	
@@ -147,6 +149,10 @@ public class HomeController {
 			Long userId = (Long) session.getAttribute("currentUserId");
 			User user = userServ.find(userId);
 			book.setUser(user);
+			User borrower = (User) session.getAttribute("borrower");
+			System.out.println("borrower: " + borrower);
+			book.setBorrower(borrower);
+			System.out.println("book.getBorrower(): " + book.getBorrower());
 			bookServ.updateBook(book);
 			return "redirect:/books";
 		}
@@ -155,6 +161,30 @@ public class HomeController {
 	@DeleteMapping("/books/{id}/delete")
 	public String destroy(@PathVariable("id") Long id) {
 		bookServ.deleteBook(id);
+		return "redirect:/books";
+	}
+	
+	@GetMapping("/books/{id}/delete")
+	public String altDelete(@PathVariable("id") Long id) {
+		bookServ.deleteBook(id);
+		return "redirect:/books";
+	}
+	
+	@GetMapping("/books/{bookId}/borrow")
+	public String borrow(@PathVariable("bookId") Long bookId, HttpSession session) {
+		Book book = bookServ.findBook(bookId);
+		Long userId = (Long) session.getAttribute("currentUserId");
+		User user = userServ.find(userId);
+		book.setBorrower(user);
+		bookServ.updateBook(book);
+		return "redirect:/books";
+	}
+	
+	@GetMapping("/books/{bookId}/return")
+	public String returnBook(@PathVariable("bookId") Long bookId, HttpSession session) {
+		Book book = bookServ.findBook(bookId);
+		book.setBorrower(null);
+		bookServ.updateBook(book);
 		return "redirect:/books";
 	}
 }

@@ -10,6 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
@@ -37,7 +39,20 @@ public class Book {
 	@JoinColumn(name="user_id")
 	private User user;
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="borrower_id")
+	private User borrower;
+	
 	public Book() {}
+	
+    @PrePersist
+    protected void onCreate(){
+        this.createdAt = new Date();
+    }
+    @PreUpdate
+    protected void onUpdate(){
+        this.updatedAt = new Date();
+    }
 
 	public Long getId() {
 		return id;
@@ -93,6 +108,15 @@ public class Book {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public User getBorrower() {
+		return borrower;
+	}
+
+	public void setBorrower(User borrower) {
+		this.borrower = borrower;
 	};
+	
 	
 }
